@@ -26,19 +26,15 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 
 Then see: https://gist.github.com/DanHerbert/9520689
 
-Doing the above means you should never have to use 'sudo' when installing npm modules
-globally with the '-g' flag. The following instructions work for Linux but for Mac OS X
-omit the 'sudo'
+Also to ensure kerberos and node-gyp install correctly run the following:
 
-Also to ensure kerberos and node-gyp install correctly run the following on Linux:
-
-sudo npm install -g node-gyp
+npm install -g node-gyp
 
 Any dependency that you want added to your global path must be installed globally:
 
-sudo npm install -g gulp
-sudo npm install -g karma
-sudo npm install -g phantomjs-prebuilt
+npm install -g gulp
+npm install -g karma
+npm install -g phantomjs-prebuilt
 
 Google Chrome was discontinued for RHEL/CentOS 6.x on up but a work around is here:
 
