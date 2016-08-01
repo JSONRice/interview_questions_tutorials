@@ -1,0 +1,59 @@
+{
+  "name": "angular-route",
+  "version": "1.5.0-rc.2",
+  "description": "AngularJS router module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/angular.js.git"
+  },
+  "keywords": [
+    "angular",
+    "framework",
+    "browser",
+    "router",
+    "client-side"
+  ],
+  "author": {
+    "name": "Angular Core Team",
+    "email": "angular-core+npm@google.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angular/angular.js/issues"
+  },
+  "homepage": "http://angularjs.org",
+  "gitHead": "a3368987b153b48cd06abfbc036ebfd2a98532c7",
+  "_id": "angular-route@1.5.0-rc.2",
+  "_shasum": "024a0d4bf3a12a7c9f8a07d184b402372fe3c0ce",
+  "_from": "angular-route@>=1.5.0-beta.0 <1.6.0",
+  "_npmVersion": "2.14.12",
+  "_nodeVersion": "4.2.6",
+  "_npmUser": {
+    "name": "angularcore",
+    "email": "angular-core+npm@google.com"
+  },
+  "maintainers": [
+    {
+      "name": "mljsimone",
+      "email": "mljsimone@gmail.com"
+    },
+    {
+      "name": "angularcore",
+      "email": "angular-core+npm@google.com"
+    },
+    {
+      "name": "petebd",
+      "email": "pete@bacondarwin.com"
+    }
+  ],
+  "dist": {
+    "shasum": "024a0d4bf3a12a7c9f8a07d184b402372fe3c0ce",
+    "tarball": "http://registry.npmjs.org/angular-route/-/angular-route-1.5.0-rc.2.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/angular-route/-/angular-route-1.5.0-rc.2.tgz"
+}

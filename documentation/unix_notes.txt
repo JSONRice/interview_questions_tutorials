@@ -1,0 +1,94 @@
+Last Modified: 2/2/16 @ 5:00 PM
+
+Unix Notes:
+
+If on Linux make sure to update your packages and add dev tools:
+
+sudo yum -y update
+sudo yum -y "Development Tools"
+
+Kerberos is required and needs g++ and Python:
+
+sudo yum -y install gcc-c++ python
+
+Then install the Kerberos libraries:
+
+# or Debian is: sudo apt-get install libkrb5-dev libkrb5-server
+sudo yum install krb5-devel krb5-server
+
+The following involves installing global node modules. Currently Mac OS X requires
+'sudo' when running the native terminal. The following is a work around to 'sudo'
+Running 'sudo' on Mac OS X is difficult and brings a myriad of troubles.
+
+Note: first install homebrew (brew command) with the following:
+
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+Then see: https://gist.github.com/DanHerbert/9520689
+
+Doing the above means you should never have to use 'sudo' when installing npm modules
+globally with the '-g' flag. The following instructions work for Linux but for Mac OS X
+omit the 'sudo'
+
+Also to ensure kerberos and node-gyp install correctly run the following on Linux:
+
+sudo npm install -g node-gyp
+
+Any dependency that you want added to your global path must be installed globally:
+
+sudo npm install -g gulp
+sudo npm install -g karma
+sudo npm install -g phantomjs-prebuilt
+
+Google Chrome was discontinued for RHEL/CentOS 6.x on up but a work around is here:
+
+http://www.tecmint.com/install-google-chrome-on-redhat-centos-fedora-linux/
+
+Specifications (64 bit) -
+IDE: Netbeans 8 (requires Java 8 SDK)
+OS: Mac OS X and CentOS (6.5+)
+Browser: Google Chrome
+
+NodeJS (NPM) Installation:
+Google search "NodeJS Windows" The first hit should be a link to nodejs.org Navigate to that link and download NodeJS. NodeJS contains npm.
+
+Now use Git (install first) to clone the tutorial:
+
+git clone https://github.com/jasonwr/MEANStackJHUEPIndStudies.git
+
+Navigate to the newly cloned project:
+
+cd MEANStackJHUEPIndStudies
+
+Now since NodeJS is installed download the dependencies contained in package.json
+All the developer dependencies are also in here.
+
+npm install
+
+Note:
+If you see any deprecated modules feel free to adjust the package.json and submit a fork request to the Github repository.0fc.
+
+
+Mongo Installation:
+Download Mongo from www.mongodb.com
+If your on a Mac open a terminal and add the path of your Mongo directory with the bin to the /etc/paths file (use vi or emacs to edit this file, must be sudo). Then restart your terminal session and type:
+
+echo $PATH
+
+The path should be of the format <path-to-mongo>/bin Where "<path-to-mongo>" is the location of your mongo download and the bin directory should be under there.
+If you're using Linux simply append the Mongo bin to your PATH variable in your .bashrc or .bash_profile file.
+
+Now create the db directory under your home directory:
+
+mkdir -p ~/data/db
+
+Then start up the mongo daemon:
+
+mongod --dbpath ~/data/db
+
+Open up a new terminal tab and type the following for database access:
+
+mongo
+
+Troubleshooting Mongo:
+Do not create the db directory under root (/data/db) rather for security and simplicity run under your home directory. If you create under /data/db this requires root (sudo) to run. If you attempt to connect and get a timed out connection examine the mongod output. Chances are you attempted connection before the daemon was finished setting up the socket.

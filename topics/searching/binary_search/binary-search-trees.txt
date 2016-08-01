@@ -1,0 +1,610 @@
+    Binary Search Trees
+    15-451 February 2, 2006
+    Danny Sleator
+
+---------------------------------------
+References: http://www.cs.cmu.edu/afs/cs/academic/class/15451-s06/www/lectures/binary-search-trees.txt
+---------------------------------------
+Summary:
+
+The Dictionary ADT problem
+
+One approach: Binary search trees
+Problems with the approach (unbalance)
+
+Ways of dealing with this:
+  - Balanced Search Trees (Red-Black/AVL)
+  - Randomized Search Trees (treeps)
+  - Splay Trees (next time)
+
+Things trees can do that a hash table can't
+  - successor, predecessor
+  - Maintaining and searching by rank
+  - splitting and joining
+  - prefix matching
+
+---------------------------------------
+
+Dictionary ADT (abstract date type): Represent a set of keys each with
+an associated piece of data allowing three kinds of operations:
+
+   find(k)      Return the data associated with key k, null otherwise.
+
+   insert(k,d)  Insert a new key k (not already in the set) into
+                the set with data d.
+
+   remove(k)    Delete the key k from the set (assuming its in the set).
+
+
+Consider a sequence of M operations, where the maximum size of the
+set is N.  We'd like to study ways of solving this problem, and
+analyze their running time as a function of m and n.
+
+Consider solving this problem with a linked list, and with a sorted
+array. 
+
+                linked list               Sorted array
+--------------------------------------------------------------------
+    find()      O(N)                      O(log N)
+    insert()    O(1)                      O(N)
+    remove()    O(1)                      O(N)
+
+The log(N) bound is obtained using binary search.  Notice that
+insert() is fast for lists but slow for an array.  But find is fast
+for an array and slow for a list.  Our goal is a data structure that
+efficient for all of these operations.
+
+One approach: Hashing 
+   O(M) time total (O(1) per operation)
+   (Later in the course)
+
+Another approach: Binary Search Trees
+   O(M log N) time
+   (we'll see later why binary search trees are useful
+    despite a worse bound than hashing)
+
+A binary search tree is a class of data structures where
+
+  (1) Each node stores a piece of data
+  (2) Each node has two pointers to two other binary search trees
+  (3) The overall structure of the pointers is a tree
+      (there's a root, exactly one way to reach every node
+      from the root.)
+
+We assume that the keys are from an ordered universe.  
+This means that for any two keys A and B exactly one of the following
+holds:
+
+                 A < B      A = B     A > B
+
+Furthermore the relation is transitive, so that if A > B and B > C
+then A > C.  In java's terminology we say that this set of keys
+obeys the "Comparable" interface.  A.compareTo(B) < 0 iff
+A < B, etc.
+             
+The tree is ordered according to the keys: At every node n all the
+keys in the left subtree of n are less than n.key, and all those in
+the right subtree are greater than n.key.  For example, here's a tree
+of 10 nodes.
+
+
+                             5
+                            / \
+                           3   6
+                          / \   \
+                         1   4   9
+                        / \     /
+                       0   2   8
+                              /
+                             7
+
+This ordering is called SYMMETRIC ORDER or INORDER.
+
+Algorithm for find()
+    Simply walk down the tree doing comparisons.  (Draw
+    pictures.)
+
+Insertion algorithm
+    Same as a search, but put the new node in at
+    the place where you ran off the bottom of the tree.
+
+    for example if we insert 8.5 into the above tree
+    we get:
+
+
+                             5
+                            / \
+                           3   6
+                          / \   \
+                         1   4   9
+                        / \     /
+                       0   2   8
+                              / \
+                             7  8.5
+
+
+Removal (Deletion) algorithm
+    First find the node you want to delete, call it t.  If t's
+    right subtree is empty, replace t by its left subtree, and stop. 
+    Otherwise let L be the leftmost node in t's right subtree.  Swap
+    t and L.  Now replace t by t's right subtree.
+
+    (Draw pictures)
+
+THE PROBLEM OF UNBLALANCE
+
+If you keep inserting into a tree, it can become "unbalanced", so that
+searches (and insertions) become very slow.  O(N) in an N-node tree.
+This blows our chance to obtain O(log N) running time per operation,
+and defeats our purpose, which is efficiency.
+
+Example of how this can happen: Inserting the keys into the tree
+in sorted order.
+
+Three approaches to solving this:
+
+  - balance conditions: AVL trees, Red-Black trees, AA trees, etc
+  - self-adjusting trees.
+  - randomized search trees (treaps)
+
+BALANCED TREES
+
+The idea of balance: Maintain a structural invariant of the tree so
+that the depth of the tree is bounded by O(log N).  Requiring perfect
+balance is neither necessary desirable. (Maintaining perfect balance
+would require massive work to restructure the tree in the event of an
+insertion.  Illustrate with a picture.)  Some "balance information" is
+also always required to be stored in the nodes.
+
+There are many forms of balanced trees: Height balanced trees (AVL
+Trees) red-black trees, AA trees weight balanced trees, etc.  Here
+we'll talk about red-black trees in detail below.
+
+In all these forms of binary search trees, Rotations are used to
+rebalance the tree when necessary.  A rotation is a local
+restructuring operation.
+
+ROTATIONS
+
+A rotation in a binary search tree is a restructuring operation that
+preserves the order of the nodes but changes the depths of some of the
+nodes.
+
+Here's the general form of rotation:
+
+                       z                                      z
+                      /                                      / 
+                     y                                      x
+                    / \     right rotation about y-x       / \
+                   x   C     ======================>      A   y
+                  / \                                        / \
+                 A   B                                      B   C
+
+Here are the pointer adjustments;
+
+             y.left = x.right;
+             x.right = y;
+             z.left = x;
+
+(If y was a right child of z instead of a left, then the last of these
+would be z->right = x.  If there were parent pointers, then the parents
+of x, y, and the root of B would have to be adjusted also.)
+
+Thinking of a binary tree as a representation of a fully parenthesized
+expression, then the rotation is nothing more than an application of the
+associative law.
+
+
+                     +                                      +
+                    / \                                    / \
+                   +   C     ======================>      A   +
+                  / \                                        / \
+                 A   B                                      B   C
+
+
+                (A+B)+C                                     A+(B+C)
+
+
+RED-BLACK TREES
+
+In red-black trees, each node has a color, either red or black,
+subject to the following constrants:
+
+  (i) All missing (external) nodes are regarded as black;
+ 
+ (ii) all paths from the root to a missing node contain the same
+      number of black nodes;
+
+(iii) the parent of each red node (if it has one) is black.
+
+
+Theorem: In an n-node red-black tree, the number of nodes on any path
+from the root to a missing node (not counting the missing node) is at
+most floor(2 log(n+1)).  (binary log, as always)
+
+Proof: Transform the tree by deleting all the red nodes.  Simply
+replace each red node by its right child.  (The order in which you do
+this does not matter, since the children of each red node are black.)
+Now we have a tree consisting only of black nodes, and all the paths
+are exactly the same length by property (ii).  The tree is perfectly
+balanced, such as this picture:
+
+                    o
+                   / \
+                  /   \
+                 /     \
+                o       o
+               / \     / \
+              o   o   o   o
+             / \ / \ / \ / \
+
+There are 7 nodes, and 8 missing nodes.  In general the number of
+nodes here is (2^b)-1, where the paths have b nodes on them.  The
+number of nodes in the original tree, n, is at least this. i.e.
+
+         n >= (2^b)-1
+
+In the original tree, the path lengths can be at most 2b, because
+above each black node on a path, there could be a red node.  Let d be
+the length of the longest path of nodes in the original tree.
+then we have:
+
+        d <= 2b  That is     b >= d/2
+
+Therefore
+
+        n >= (2^(d/2))-1
+
+        log(n+1) >= d/2
+
+        d <= 2 log(n+1)
+
+Q.E.D.
+
+Now we need to show how to do insertion and deletion in red-black
+trees.
+
+
+INSERTION in Red-Black trees
+
+Insert the new node in the ordinary fashion.  Color it red.  Call the
+new node v.  There may be a color violation between v and its parent.
+Here are the cases.  (In these diagrams o represents a red node, *
+represents a black node.  v is a red node with a possible violatino
+with its parent.  Symmetrical variants are not shown.)
+
+(1) v = the root.     In this case there is no violation.  Terminate.
+
+(2) v's parent is black.  Again, no violation.  Terminate.
+
+(3) v's parent is red.  Now there is a violation that must be fixed.
+
+    (3.1) v's parent is the root
+
+            o                *
+           /    ----->      /      and terminate.
+          v     recolor    v
+  
+
+    (3.2) v's grandparent must be black.  here's what we do.
+
+
+  (a)    *                    v
+        / \                  / \
+       o   o     ----->     *   *     continue
+      /         recolor    /
+     v                    o
+
+     ---OR----
+
+         *                    v
+        / \                  / \
+       o   o     ----->     *   *     continue
+        \       recolor      \
+         v                    o
+
+
+  (b)    *                    *
+        / \                  / \
+       o   *     ----->     o   o     terminate
+      /          rotate          \
+     v                            *
+
+
+  (c)    *                    *
+        / \                  / \
+       o   *     ----->     o   o     terminate
+        \     2 rotations        \
+         v                        *
+
+
+
+DELETION in Red-Black trees
+
+In this discussion, a node is said to be short if the number of black
+nodes on the paths from it to it's empty nodes is one too small
+compared to its sibling.  In this analysis there may at any time be
+one short node.
+
+Let x be the node we want to delete.  If x is missing both of its
+children, then simply delete it, and the empty node that replaces it
+becomes short (if x was black).  This is corrected as shown below.
+
+If x is missing one of its children, then replace x by its non-missing
+child z.  If either x or z was red, color z black, and stop.  if both
+were black, then z becomes short, and this must be corrected as
+explained below.
+
+If x has both of its children, then let y be the rightmost node in the
+left subtree of x.  Now we swap the contents of the nodes y and x.  At
+this point x has no right child, and we delete x using the method
+above.
+
+It remains to handle the possible short subtree that might exist as a
+result of doing the procedure described above.  Let the short tree be
+rooted at a node called s, which is always black.  Now there are some
+cases.
+
+(1)  s's parent is red
+
+     o                     *
+    / \                   / \
+   s   *      ------->   *   o         terminate
+      / \     recolor       / \
+     *   *                 *   *
+
+
+     o                     o
+    / \                   / \
+   s   *      ------->   *   *         terminate
+        \     rotate    /
+         o             *
+
+
+     o                         o
+    / \                       / \
+   s   *      ----------->   *   *     terminate
+      / \     2 rotations   /     \
+     o   *                 *       *
+
+
+(2)  s's parent is black
+
+      *                        *
+     / \      -------->       /       go to case (1)
+    s   o     rotation       o
+                            /
+                           s
+
+     *                     s
+    / \                   / \
+   s   *      ------->   *   o        continue
+      / \     recolor       / \
+     *   *                 *   *
+
+
+     *                     *
+    / \                   / \
+   s   *      ------->   *   *         terminate
+        \     rotate    /
+         o             *
+
+
+     *                         *
+    / \                       / \
+   s   *      ----------->   *   *     terminate
+      / \     2 rotations   /     \
+     o   *                 *       *
+
+
+This completes the algorithm for Deletion.
+
+AVL TREES (not done in this lecture)
+
+Define the height of a binary tree to be the number of nodes on the
+longest path down the tree.  This is the maximum number of nodes you'd
+have to visit in a search of the tree.
+
+The idea of height balance: The height of the left and right subtrees
+from any node differ by at most 1.
+
+Let h(T) be the height of a tree (or a node in a tree).
+The balance condition states that at every node n 
+the following holds:
+
+                    n
+                   / \
+                  /   \
+                 L     R
+
+           | h(L) - h(R) | <= 1
+
+Theorem: Consider an AVL tree of N nodes and height h.  Then
+
+                          h
+                  N >= Phi  -1
+
+Where Phi = 1.618... = the golden ratio = (1+sqrt(5))/2
+
+
+OPTIONAL MATERIAL
+-----------------
+
+
+Proof: The proof is by induction.  There are two base cases, the case
+of N=0 and the case of N=1.  If N=0 than h=0 and the formula holds
+with equality.  If N=1 then h=1 and the formula holds.
+
+When N>1, let N_L be the number of nodes in the left subtree and 
+          let N_R be the number of nodes in the right subtree
+          let h_L be the height of the left subtree and
+          let h_R be the height of the right subtree
+
+By induction we know that:
+
+                   h_L
+         N_L >= Phi   -1
+
+and
+
+                   h_R
+         N_R >= Phi   -1
+
+Note that N=N_L+N_R + 1  So adding these two inequalities together
+gives:
+
+                                 h_L       h_R
+         N = N_L + N_R + 1 >= Phi    +  Phi   -1           (1)
+
+Now there are three cases, depending on the relationship between
+h and h_L and h_R.
+
+Case 1:  h_L = h-1
+         h_R = h-2
+
+Inequality (1) becomes:
+
+                h-1     h-2
+        N >= Phi   + Phi   -1
+
+                h-2
+          >= Phi   (1 + Phi)  -1 
+
+               2
+But 1+Phi = Phi  (definition of Phi)  So this becomes:
+      
+                 h-2   2          h
+        N  >= Phi   Phi  -1  = Phi  -1
+
+Which is what we wanted.
+
+Case 2:  h_L = h-2
+         h_R = h-1
+
+This is the same as case 1 by symmetry.
+
+Case 3:  h_L = h-1
+         h_R = h-1
+
+This shows N is even bigger than case 1, because 
+     h-1         h-2
+  Phi      >  Phi
+
+This completes the proof of the theorem.  QED.
+
+
+Why is this theorem useful?  Let's think about h as a function of N.
+We know that
+              h
+     N >=  Phi  -1
+
+Therefore:
+
+     Log_Phi(N+1) >= h
+
+In other words:
+
+     h = O(log N)
+
+So even though these trees are not perfectly balanced, they're
+still balanced enough to give O(log N).
+
+Here are some examples of the "most unbalanced" AVL trees
+for a given height:
+
+    T(1)   =     o
+
+    T(2)   =     o
+                /
+               o
+
+    T(3)   =     o
+                / \
+               o   o
+              /
+             o
+
+                   o
+    T(4)    =     / \
+                 /   \
+                o     o
+               / \   /
+              o   o o
+             /
+            o
+
+
+MAINTAINING HEIGHT BALANCE in AVL TREES
+
+We keep extra information ("balance bits") in each node that tells which
+of the three balance conditions hold: left higher, right higher, left
+and right equal.
+
+Whenever an update (like an insertion of deletion) occurs, an
+algorithm is applied to the tree to rebalance it.  This algorithm uses
+the balance bits on the nodes along the path from the root to the
+change, and applies ROTATIONS to rebalance the tree, and update the
+balance bits.  It turns out that under insertion or deletion it is
+possible to rebalance the tree in O(log N) time.
+
+Here's an example of how rotations can restore balance in an AVL tree
+under an insertion.
+
+Say we have this tree:
+
+                 4
+                / \
+               3   5
+              /
+             2
+
+Now we insert 1 into this tree, getting:
+
+
+                 4
+                / \
+               3   5
+              /              (A)
+             2
+            /
+           1
+
+Now nodes 3 and 4 are unbalanced.  If we rotate right at node 3, we
+get this tree:
+
+                 4
+                / \
+               2   5         (B)
+              / \
+             1   3
+
+Another case.  Suppose the tree looked like this and we inserted 2:
+
+                 4                         4
+                / \                       / \
+               3   5                     3   5
+              /                         /
+             1                         1              (C)
+                                        \
+                                         2
+
+Now 3 and 4 are unbalance again.  Doing a rotation about 3 does this:
+
+
+                   4
+                  / \
+                 1   5
+                  \
+                   3
+                  /
+                 2
+
+And no progress toward balance has been made.  The answer in 
+this case is a "double rotation", which is 2 rotations.  First
+we left rotate about 1 to transform (C) into (A).  Then we
+do what we did to fix (A), namely rotate about 3.
+
+The detailed algorithm for maintaining AVL trees is a bit more
+complicated than that for Red-Black trees.  Also, they don't have the
+property that only a constant number of rotations need to be done on
+an insertion or deletion.

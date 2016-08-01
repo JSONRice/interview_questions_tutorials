@@ -1,0 +1,11 @@
+<div id="showcasemodal" ng-controller="ShowcaseModalController">
+  <button type="button" class="btn btn-default" ng-click="openDinoInfo('lg')">Learn More About Dinosaurs</button>
+  <br/>
+  <br/>
+  <div ng-show="madeSelection">
+    <span class="alert-warning">Looks like your last selected dinosaur was the <b>{{selected.item.name}}.</b> That's a great selection!</span>
+  </div>
+  <div ng-show="!madeSelection">
+    <span class="alert-warning">Try clicking on the dinosaur modal button <i>and</i> then click on the Ok button.</span>
+  </div>  
+</div>

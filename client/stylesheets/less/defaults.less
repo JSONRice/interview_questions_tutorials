@@ -1,0 +1,39 @@
+/* 
+    Default styles applied throughout elements.
+*/
+
+@import 'colors';
+
+a {
+  cursor: pointer;
+}
+
+// Reset anything from Bootstrap as this will eventually get overwritten by the
+// HighlightJS CSS:
+pre {border: 0; background-color: transparent;}
+
+p {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;    
+}
+
+hr {
+    padding: 0 !important;
+    border: none !important;
+    border-top: medium double #333 !important;
+    color: #333 !important;
+    text-align: center !important;
+}
+
+hr:after {
+    content: "§" !important;
+    display: inline-block !important;
+    position: relative !important;
+    top: -0.7em !important;
+    font-size: 1em !important;
+    padding: 0 0.25em !important;
+    background: @white-smog !important;
+}
