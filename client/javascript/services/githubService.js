@@ -4,7 +4,9 @@ angular.module('meanstacktutorials').service('GithubService', [
   'AjaxService',
   function ($q, $http, ajax) {
 
-    var url = 'https://api.github.com/repos/jasonwr/MEANStackJHUEPIndStudies';
+    // TODO: fix this as it was set to MEAN stack prior and that was a public repo.
+    // Now the repo pointed as it private and I would suppose keys need to be added to get this to load.
+    var url = 'https://api.github.com/repos/jasonwr/interview_questions_tutorials';
     var gitBranchData;
     // JSON request from the html_url in the gitBranchData request
     var gitBranchSpecificData;
