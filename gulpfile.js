@@ -11,6 +11,7 @@ var karma = require('karma').Server;
 var minifyCSS = require('gulp-minify-css');
 var merge = require('merge-stream');
 var del = require('del');
+var sourcemaps = require('gulp-sourcemaps');
 
 // Remove any cached distribution files
 gulp.task('clean', function () {
@@ -64,17 +65,13 @@ gulp.task('templates', function () {
 // Concatenate JavaScripts
 gulp.task('concat', ['templates'], function () {
   return gulp.src([
-    './client/javascript/app.js',
-    './client/javascript/dist/templates.js',
-    './client/javascript/constants/**/*.js',
-    './client/javascript/controllers/**/*.js',
-    './client/javascript/directives/**/*.js',
-    './client/javascript/filters/**/*.js',
-    './client/javascript/models/**/*.js',
-    './client/javascript/services/**/*.js'
+    './client/javascript/**/*.js',
+    '!./client/javascript/vendor/**/*.js'
   ])
-          .pipe(concat('all.js'))
-          .pipe(gulp.dest('./client/javascript/dist'));
+  .pipe(sourcemaps.init())
+  .pipe(concat('all.js'))
+  .pipe(sourcemaps.write('./'))
+  .pipe(gulp.dest('./client/javascript/dist'));
 });
 
 // Minify JavaScripts
