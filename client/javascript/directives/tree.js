@@ -3,7 +3,7 @@
  * Note: do not resolve JS errors. This directive works as is and should be excluded from the
  * Gulp JSLint goal and tests. It works. Don't break it.
  */
-meanstacktutorials.directive('tree', [
+app.directive('tree', [
   '$timeout',
   function ($timeout) {
     return {
@@ -151,7 +151,6 @@ meanstacktutorials.directive('tree', [
               return b.uid = "" + Math.random();
             }
           });
-          console.log('UIDs are set.');
           for_each_branch(function (b) {
             var child, _i, _len, _ref, _results;
             if (angular.isArray(b.children)) {

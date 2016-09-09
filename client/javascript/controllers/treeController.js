@@ -1,7 +1,7 @@
 /**
  * Sources: https://github.com/nickperkinslondon/angular-bootstrap-nav-tree
  */
-angular.module('meanstacktutorials').controller('TreeController', [
+app.controller('TreeController', [
   '$scope',
   '$timeout',
   'AjaxService',
@@ -10,7 +10,7 @@ angular.module('meanstacktutorials').controller('TreeController', [
     var tree;
     var treedata;
 
-    $scope.my_tree_handler = function (branch) {
+    $scope.tree_handler = function (branch) {
       $scope.output = "<h1>" + branch.label + "</h1>";
       if (branch.data) {
         if (branch.data.url) {
@@ -43,19 +43,31 @@ treedata = [{
           {
             label: 'Data Structures',
             data: {
-              url: 'templates/tutorials/toc/ds/dsIntro.html'
+              url: '/templates/tutorials/toc/ds/dsIntro.html'
             },
             children: [
               {
                 label: 'Array ADT',
                 data: {
-                  url: 'templates/tutorials/toc/ds/bst.html'
+                  url: '/templates/tutorials/toc/ds/array.html'
+                }
+              },
+              {
+                label: 'Binary Search Tree ADT',
+                data: {
+                  url: '/templates/tutorials/toc/ds/bst.html'
+                }
+              },              
+              {
+                label: 'Hash ADT',
+                data: {
+                  url: '/templates/tutorials/toc/ds/hash.html'
                 }
               },
               {
                 label: 'Linked List ADT',
                 data: {
-                  url: 'templates/tutorials/toc/ds/hash.html'
+                  url: '/templates/tutorials/toc/ds/linked_list.html'
                 }
               }
             ]
@@ -69,8 +81,8 @@ treedata = [{
         ]
       }
     ];
-    $scope.my_data = treedata;
+    $scope.local_data = treedata;
 
-    $scope.my_tree = tree = {};
+    $scope.local_tree = tree = {};
   }
 ]);

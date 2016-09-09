@@ -1,4 +1,4 @@
-meanstacktutorials.directive('modal', function () {
+app.directive('modal', function () {
   return {
     restrict: 'AE',
     templateUrl: '../../templates/modals/feedbackModal.html',

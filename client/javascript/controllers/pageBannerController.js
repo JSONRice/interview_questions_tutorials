@@ -1,4 +1,4 @@
-angular.module('meanstacktutorials').controller('PageBannerController', [
+app.controller('PageBannerController', [
   '$scope',
   '$location',
   '$uibModal',

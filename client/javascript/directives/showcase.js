@@ -4,7 +4,7 @@
  * it trivial to showcase a widget for display to the user and is the directive 
  * of choice for the Angular UI tutorials within this web app.
  */
-meanstacktutorials.directive('showcase', [
+app.directive('showcase', [
   'AjaxService',
   function (ajax) {
     return {

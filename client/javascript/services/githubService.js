@@ -1,4 +1,4 @@
-angular.module('meanstacktutorials').service('GithubService', [
+app.service('GithubService', [
   '$q',
   '$http',
   'AjaxService',

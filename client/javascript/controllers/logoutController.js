@@ -1,4 +1,4 @@
-angular.module('meanstacktutorials').controller('LogoutController', [
+app.controller('LogoutController', [
   '$scope',
   '$location',
   'AuthenticationService',

@@ -1,12 +1,12 @@
 /**
  * User service for /api/users (Mongoose)
  */
-angular.module('meanstacktutorials').factory('UserService', [
+app.service('UserService', [
   '$q',
   '$http',
   function ($q, $http) {
     // Fetch users from Mongo user collection:
-    function getUsers() {
+    this.getUsers = function() {
       var deferred = $q.defer();
       var httpPromise = $http.get('/api/users');
 
@@ -18,7 +18,7 @@ angular.module('meanstacktutorials').factory('UserService', [
         deferred.reject(error);
       });
       return deferred.promise;
-    }
+    };
 
     /**
      * Given a username fetch a single user object (document) from Mongo user collection.
@@ -26,7 +26,7 @@ angular.module('meanstacktutorials').factory('UserService', [
      * @return {$q:deferred.promise} Contains the promise response object if you want the user data
      * just make sure to look under the nested 'data' object.
      */
-    function getUser(username) {
+    this.getUser = function(username) {
       if (!username || username === "" || username === null) {
         return null;
       }
@@ -39,11 +39,6 @@ angular.module('meanstacktutorials').factory('UserService', [
         deferred.reject(error);        
       });
       return deferred.promise;
-    }
-    
-    return({
-      getUsers: getUsers,
-      getUser: getUser
-    });    
+    };
   }
 ]);

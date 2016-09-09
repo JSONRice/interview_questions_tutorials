@@ -7,7 +7,7 @@
  * directive, in order to perform page bound linking without having to go through the
  * custom route table in the client/javascript/app.js file.
  */
-angular.module('meanstacktutorials').controller('AngularBasicsController', [
+app.controller('AngularBasicsController', [
   '$location',
   '$scope',
   'AjaxService',

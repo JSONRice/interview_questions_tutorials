@@ -1,4 +1,4 @@
-angular.module('meanstacktutorials').factory('AuthenticationService', [
+app.service('AuthenticationService', [
   '$q',
   '$http',
   function ($q, $http) {
@@ -6,44 +6,29 @@ angular.module('meanstacktutorials').factory('AuthenticationService', [
     var user = null;
 
     // place all data to share between controllers in here
-    var data = {username: ""};
+    this.data = {username: ""};
 
-    // return available functions and data for use in controllers
-    // note this is a method for sharing data between controllers and
-    // data in here is persisted (doesn't get cleared)
-    return ({
-      setUsername: setUsername,
-      getUsername: getUsername,
-      isLoggedIn: isLoggedIn,
-      setUserStatus: setUserStatus,
-      getUserStatus: getUserStatus,
-      login: login,
-      logout: logout,
-      register: register,
-      data: data
-    });
-
-    function setUsername(username) {
+    this.setUsername = function(username) {
       this.data.username = username;
-    }
+    };
 
-    function getUsername() {
+    this.getUsername = function() {
       return this.data.username;
-    }
+    };
 
-    function isLoggedIn() {
+    this.isLoggedIn = function() {
       return (user) ? user : false;
-    }
+    };
     
-    function setUserStatus(pUser) {
+    this.setUserStatus = function(pUser) {
       user = pUser;
-    }
+    };
 
-    function getUserStatus() {
+    this.getUserStatus = function() {
       return user;
-    }
+    };
 
-    function login(username, password) {
+    this.login = function(username, password) {
 
       // create a new instance of deferred (promise)
       var deferred = $q.defer();
@@ -64,10 +49,9 @@ angular.module('meanstacktutorials').factory('AuthenticationService', [
 
       // return promise object
       return deferred.promise;
+    };
 
-    }
-
-    function logout() {
+    this.logout = function() {
 
       // create a new instance of deferred
       var deferred = $q.defer();
@@ -84,10 +68,10 @@ angular.module('meanstacktutorials').factory('AuthenticationService', [
       // return promise object
       return deferred.promise;
 
-    }
+    };
 
     // register new user in Mongo
-    function register(username, firstname, lastname, password) {
+    this.register = function(username, firstname, lastname, password) {
       // create a new instance of deferred
       var deferred = $q.defer();
 
@@ -108,5 +92,6 @@ angular.module('meanstacktutorials').factory('AuthenticationService', [
 
       // return promise object
       return deferred.promise;
-    }
-  }]);
+    };
+  }
+]);

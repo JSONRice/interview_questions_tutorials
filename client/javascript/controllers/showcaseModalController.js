@@ -1,4 +1,4 @@
-angular.module('meanstacktutorials').controller('ShowcaseModalController', [
+app.controller('ShowcaseModalController', [
   '$scope',
   '$uibModal',
   function ($scope, $uibModal) {

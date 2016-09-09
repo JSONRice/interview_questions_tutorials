@@ -1,4 +1,4 @@
-angular.module('meanstacktutorials').service('AjaxService', [
+app.service('AjaxService', [
   '$templateRequest',
   '$sce',
   '$q',
@@ -11,11 +11,11 @@ angular.module('meanstacktutorials').service('AjaxService', [
      * @param {String} url to template markup.
      * @return {promise} AJAX promise to receive the template markup from the url.
      */
-    function getTemplate(url) {
+    this.getTemplate = function(url) {
       return $templateRequest($sce.getTrustedResourceUrl(url));
-    }
+    };
 
-    function httpGET(url) {
+    this.httpGET = function(url) {
       var deferred = $q.defer();
       $http.get(url).success(function (response) {
         deferred.resolve(response);
@@ -23,10 +23,6 @@ angular.module('meanstacktutorials').service('AjaxService', [
         deferred.reject();
       });
       return deferred.promise;
-    }
-
-    return({
-      getTemplate: getTemplate,
-      httpGET: httpGET
-    });
-  }]);
+    };
+  }
+]);

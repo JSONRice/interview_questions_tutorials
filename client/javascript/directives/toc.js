@@ -8,7 +8,7 @@
  * 
  * Sources: https://github.com/MMMalik/angular-toc
  */
-meanstacktutorials.directive('toc', function () {
+app.directive('toc', function () {
   return {
     restrict: "A",
     template:
