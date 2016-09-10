@@ -3,20 +3,20 @@
  * ui.view could be added here but currently ng-view is being used.
  */
 
-var meanstacktutorials = angular.module('meanstacktutorials', [
+var app = angular.module('web', [
   'ngRoute', 'ngSanitize', 'ngResource', 'ngAnimate', 'ui.calendar', 'ui.bootstrap',
   'ui.select', 'ui.keypress', 'nvd3', 'ngLodash', 'angularSpinner', 'ngclipboard', 'hljs'
 ]);
 
 // Custom filter to take string and trust as html
-meanstacktutorials.filter('unsafe', function ($sce) {
+app.filter('unsafe', function ($sce) {
   return function (val) {
     return $sce.trustAsHtml(val);
   };
 });
 
 // This filter expects input that conforms to a date string:
-meanstacktutorials.filter('defaultDateTimeFormat', function ($filter) {
+app.filter('defaultDateTimeFormat', function ($filter) {
   return function (input) {
     if (input === undefined || input === null) {
       return "";
@@ -33,7 +33,7 @@ meanstacktutorials.filter('defaultDateTimeFormat', function ($filter) {
 });
 
 // Pretty print JSON
-meanstacktutorials.filter('prettyJSON', function () {
+app.filter('prettyJSON', function () {
   function prettyPrintJson(json) {
     return JSON ? JSON.stringify(json, null, '  ') : 'your browser doesnt support JSON so can not pretty print';
   }
@@ -54,7 +54,7 @@ meanstacktutorials.filter('prettyJSON', function () {
 
 // The following ensures that a user is logged in prior to any view being loaded.
 // Restricted pages get re-routed back to the login view.
-meanstacktutorials.run(function ($rootScope, $location, $route, AuthenticationService) {
+app.run(function ($rootScope, $location, $route, AuthenticationService) {
   $rootScope.$on('$routeChangeStart', function (event, next, current) {
     // -- preempt if restricted is undefined. This will be redefined if you have services or
     // controllers that are testing within their own $rootScope. Same principle should apply for the
@@ -69,7 +69,7 @@ meanstacktutorials.run(function ($rootScope, $location, $route, AuthenticationSe
 });
 
 
-meanstacktutorials.config(['$routeProvider', 'hljsServiceProvider',
+app.config(['$routeProvider', 'hljsServiceProvider',
   function ($routeProvider, hljs) {
 
     // Page syntax code highlighting:

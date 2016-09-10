@@ -1,4 +1,4 @@
-meanstacktutorials.directive('pageBanner', function () {
+app.directive('pageBanner', function () {
   return {
     restrict: 'E',
     templateUrl: '../../templates/pageBanner.html'

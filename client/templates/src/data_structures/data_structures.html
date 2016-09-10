@@ -1,0 +1,37 @@
+<div id="data_structures">
+  <section id="content">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Function Name</th>
+            <th>Description</th>
+            <th>Avg. Time</th>
+            <th>Worst Time</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="function in functions">
+          <tr>
+            <td ng-bind="function.fname"></td>
+            <td ng-bind="function.fdesc"></td>
+            <td ng-bind="function.avg"></td>
+            <td ng-bind="function.worst"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p id="description" bind-html-compile="description"></p>
+    <br/>
+    <p>Select a tab below to display the completed source for this data structure:</p>
+    <uib-tabset active="-1">
+      <uib-tab ng-repeat="file in files" heading="{{file.title}}" active="tab.active" disable="tab.disabled" ng-click="getFileContent(file.source.uri)">
+        <button type="button" class="btn btn-default btn-sm" ngclipboard data-clipboard-text="{{lastFileFetched}}">
+          <span class="glyphicon glyphicon-copy"></span> Copy Code to Clipboard
+        </button>
+        <br/>        
+        <pre id="code" style="margin-right: 70px">{{lastFileFetched}}</pre>
+      </uib-tab>
+    </uib-tabset>
+  </section>
+</div>
+

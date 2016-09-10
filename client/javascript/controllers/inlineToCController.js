@@ -1,4 +1,4 @@
-angular.module('meanstacktutorials').controller('InlineToCController', [
+app.controller('InlineToCController', [
   '$scope',
   function ($scope) {
     $scope.tocItems = {

@@ -2,7 +2,7 @@
  * Custome calendar controller based off of the Calendar UI demo controller.
  * Sources: https://angular-ui.github.io/ui-calendar/
  */
-angular.module('meanstacktutorials').controller('CalendarController', [
+app.controller('CalendarController', [
   '$scope',
   '$compile',
   'uiCalendarConfig',

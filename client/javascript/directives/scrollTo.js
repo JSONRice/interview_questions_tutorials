@@ -17,7 +17,7 @@
  * 
  * Sources: http://stackoverflow.com/questions/14712223/how-to-handle-anchor-hash-linking-in-angularjs
  */
-meanstacktutorials.directive('scrollTo', function ($location, $anchorScroll) {
+app.directive('scrollTo', function ($location, $anchorScroll) {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {

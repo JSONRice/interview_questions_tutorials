@@ -1,4 +1,4 @@
-angular.module('meanstacktutorials').controller('HomeController', [
+app.controller('HomeController', [
   '$scope',
   '$location',
   'AuthenticationService',

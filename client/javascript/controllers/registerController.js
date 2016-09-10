@@ -1,4 +1,4 @@
-angular.module('meanstacktutorials').controller('RegisterController', [
+app.controller('RegisterController', [
   '$scope',
   '$location',
   'AuthenticationService',

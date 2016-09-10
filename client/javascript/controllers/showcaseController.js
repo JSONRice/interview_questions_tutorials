@@ -1,4 +1,4 @@
-angular.module('meanstacktutorials').controller('ShowcaseController', [
+app.controller('ShowcaseController', [
   '$scope',
   '$timeout',
   'AjaxService',

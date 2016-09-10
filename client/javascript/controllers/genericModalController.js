@@ -3,7 +3,7 @@
  * for just displaying informative text. If you need something beyond this then create a modal
  * specific controller and pass it this controller to access common functionality.
  */
-angular.module('meanstacktutorials').controller('GenericModalController', [
+app.controller('GenericModalController', [
   '$scope',
   '$uibModalInstance',
   function ($scope, $uibModalInstance) {
