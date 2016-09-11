@@ -4,7 +4,10 @@ using namespace std;
 // Binary Search Tree:
 
 /***
- * level order of the tree: 1//2 3//4 5 6 7// 8 9 10 11 12;
+ * Note:
+ * if the level order of the tree is: 1//2 3//4 5 6 7// 8 9 10 11 12;
+ * 
+ * Then the following is true:
  * preorder:  1  2  3  8  9   5  10  11  3   6   12  7
  * inorder:   8  4  9  2  10  5  11  1   12  6   3   7
  * postorder: 8  9  4  10 11  5  2   12  6   7   3   1
