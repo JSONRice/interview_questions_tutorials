@@ -107,16 +107,16 @@ private:
      * Pg. 674     
      **/
     Node * search(Node * subtreeRoot, int value) {
-        if (subtreeRoot == NULL) {
+        // base cases
+        if (subtreeRoot == NULL || subtreeRoot->getValue() == value) {
             return subtreeRoot;
         }
 
+        // inductive cases
         if (value < subtreeRoot->getValue()) {
             return search(subtreeRoot->getLeft(), value);
         } else if (subtreeRoot->getValue() < value) {
             return search(subtreeRoot->getRight(), value);
-        } else {
-            return subtreeRoot;
         }
     }
     
