@@ -1,6 +1,53 @@
 #include <iostream>
 using namespace std;
 
+class Node {
+public:
+
+    Node() {
+
+    }
+
+    Node(int value) {
+        this->value = value;
+    }
+
+    ~Node() {
+        if (right != NULL) {
+            delete right;
+        }
+        if (left != NULL) {
+            delete left;
+        }
+        value = 0;
+    }
+
+    int getValue() {
+        return value;
+    }
+
+    Node * getRight() {
+        return right;
+    }
+
+    Node * getLeft() {
+        return left;
+    }
+
+    void setRight(Node * node) {
+        this->right = node;
+    }
+
+    void setLeft(Node * node) {
+        this->left = node;
+    }
+
+private:
+    int value;
+    Node * right;
+    Node * left;
+};
+
 // Binary Search Tree:
 
 /***
@@ -15,131 +62,64 @@ using namespace std;
 
 class BST {
 private:
-
-    class Node {
-    public:
-
-        Node() {
-
-        }
-
-        Node(int value) {
-            this->value = value;
-        }
-
-        ~Node() {
-            if (right != NULL) {
-                delete right;
-            }
-            if (left != NULL) {
-                delete left;
-            }
-            value = 0;
-        }
-
-        int getValue() {
-            return value;
-        }
-
-        Node * getRight() {
-            return right;
-        }
-
-        Node * getLeft() {
-            return left;
-        }
-
-        void setRight(Node * node) {
-            this->right = node;
-        }
-
-        void setLeft(Node * node) {
-            this->left = node;
-        }
-
-    private:
-        int value;
-        Node * right;
-        Node * left;
-    };
-
     Node * root;
     int size;
 
     // Add a node (private)
-
-    void addNode(Node* leaf, int value) {
+    void insert(Node* leaf, int value) {
         if (value <= leaf->getValue()) {
             if (leaf->getLeft() != NULL)
-                addNode(leaf->getLeft(), value);
+                insert(leaf->getLeft(), value);
             else {
                 Node * node = new Node(value);
                 leaf->setLeft(node);
             }
         } else {
             if (leaf->getRight() != NULL)
-                addNode(leaf->getRight(), value);
+                insert(leaf->getRight(), value);
             else {
                 Node * node = new Node(value);
                 leaf->setRight(node);
             }
         }
     }
-
-public:
-
-    BST() {
-        root = NULL;
-        size = 0;
-    }
-
-    ~BST() {
-
-    }
-
-    bool isEmpty() {
-        if ((!root) || (root->getLeft() == NULL
-          && root->getRight() == NULL)) {
-            return true;
+    
+    const int getSize(Node * subtreeRoot) {
+        if (subtreeRoot == NULL) {
+            return 0;
+        } else {
+            //Add the size of the left and right trees, then add 1 (which is the current node)
+            return getSize(subtreeRoot->getLeft()) + getSize(subtreeRoot->getRight()) + 1;
         }
-        return false;
-    }
-
-    const int getSize() {
-        return size;
-    }
-
-    Node * getRoot() {
-        return root;
-    }
-
-    // Add a node
-
-    void insert(int value) {
-        // No elements. Add the root
-        if (root == NULL) {
-            cout << "add root node ... " << value << endl;
-            Node * node = new Node(value);
-            root = node;
-        }            // Else add a new node.
-        else {
-            cout << "add other node ... " << value << endl;
-            addNode(root, value);
-        }
-    }
-
+    }    
+    
     bool remove(Node * root, int val) {
-
+        if (root == NULL) {
+            return false;
+        }
     }
-
-    Node * search(int value) {
-        if (size == 0 || (root->getValue() == value)) {
-            return root;
+    
+    /**
+     * Return the node if it is found in the tree, else return NULL.
+     * See:
+     * ADTs, Data Structures, and Problem Solving with C++ 
+     * - Larry Nyhoff 
+     * Pg. 674     
+     **/
+    Node * search(Node * subtreeRoot, int value) {
+        if (subtreeRoot == NULL) {
+            return subtreeRoot;
         }
 
-        // Node * leftChild = get(root, val);
+        if (value < subtreeRoot->getValue()) {
+            return search(subtreeRoot->getLeft(), value);
+        } else if (subtreeRoot->getValue() < value) {
+            return search(subtreeRoot->getRight(), value);
+        } else {
+            return subtreeRoot;
+        }
     }
-
+    
     /*********************************************************************
      * INORDER TRAVERSAL (LVR)
      *
@@ -162,7 +142,80 @@ public:
             inorder(node->getRight());
         }
     }
+
+public:
+
+    BST() {
+        root = NULL;
+    }
+
+    ~BST() {
+
+    }
+
+    bool isEmpty() {
+        if ((!root) || (root->getLeft() == NULL
+          && root->getRight() == NULL)) {
+            return true;
+        }
+        return false;
+    }
+
+    const int getSize() {
+        return getSize(this->getRoot());
+    }
+
+    Node * getRoot() {
+        return root;
+    }
+
+    // Add a node
+    void insert(int value) {
+        // No elements. Add the root
+        if (root == NULL) {
+            cout << "add root node ... " << value << endl;
+            Node * node = new Node(value);
+            root = node;
+        }// Else add a new node.
+        else {
+            cout << "add other node ... " << value << endl;
+            insert(root, value);
+        }
+    }
+
+    bool remove(int val) {
+        return remove(this->getRoot(), val);
+    }
+
+    Node * search(int value) {
+        cout << "\nSearch for " << value << " in BST:\n";
+        return search(this->getRoot(), value);
+    }
+    
+    void inorder() {
+      inorder(this->getRoot());
+    }
 };
+
+void resultOfSearch(Node * node) {
+    if (node == NULL) {
+        cout << "\nSearch turned up empty." << endl;
+    } else {
+        cout << "\nSearch was successful. Node contains value: " << node->getValue() << endl;
+        cout << "The nodes children are as follows:\n";
+        if (node->getLeft() == NULL) {
+            cout << "Left child == NULL\n";
+        } else {
+            cout << "Left child == " << node->getLeft()->getValue() << endl;
+        }
+
+        if (node->getRight() == NULL) {
+            cout << "Right child == NULL\n";
+        } else {
+            cout << "Right child == " << node->getRight()->getValue() << endl;
+        }
+    }
+}
 
 /**
  * See:
@@ -190,7 +243,15 @@ int main() {
     tree->insert(55);
     cout << "Tree size after insert is: " << tree->getSize() << endl;
     cout << "Display nodes INORDER:\n";
-    tree->inorder(tree->getRoot());
-    cout << endl;
+    tree->inorder();
+
+    Node * searchOne = tree->search(97);
+    resultOfSearch(searchOne);
+
+    Node * searchTwo = tree->search(32);
+    resultOfSearch(searchTwo);
+
+    Node * searchThree = tree->search(63);
+    resultOfSearch(searchThree);
     delete tree;
 }
