@@ -113,7 +113,8 @@ if (app.get('env') === 'development') {
 
 // Get port from environment and store in Express:
 // The port here should be 443 if you want to go over HTTPS
-var port = normalizePort(process.env.PORT || '8000');
+var port = normalizePort(process.env.PORT || '8080');
+app.set('host', process.env.HOST || '173.79.56.74');
 app.set('port', port);
 
 // Create a basic unsecure HTTP server. When web site is visited load app object.
@@ -129,7 +130,7 @@ var options = {
 // For a secure server use the following:
 // var server = https.createServer(options, app).listen(app.get('port'));
 // Unsecure server:
-var server = http.createServer(app).listen(app.get('port'));
+var server = http.createServer(app).listen(app.get('port'), app.get('host'));
 
 server.on('error', onError);
 server.on('listening', onListening);
@@ -184,6 +185,6 @@ function onListening() {
   // unix (file) pipe (IPC) or network port:
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   // loadDefaultPage('./client/templates/index.html');
-  console.log('Node is now listening for app requests.\nNavigate to https://localhost:' + app.get('port') + ' or http://localhost:' + app.get('port') + ' depending on your app.js setup');
+  console.log('Node is now listening for app requests.\nNavigate to https://' + app.get('host') + ':' + app.get('port') + ' or http://' + app.get('host') + ':' + app.get('port') + ' depending on your app.js setup');
   console.log("NOTE: if you haven't already done so restart the web app with 'nodemon' instead of using 'node' and any code changes will cause NodeJS to restart.");
 };
