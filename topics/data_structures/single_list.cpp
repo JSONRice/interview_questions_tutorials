@@ -4,10 +4,10 @@
 #include <stdlib.h> // c library
 using namespace std;
 
-class DoubleLinkedList {
+class LinkedList {
 
   public:
-    DoubleLinkedList() {
+    LinkedList() {
       head = NULL;
       tail = NULL;
     }
@@ -66,11 +66,23 @@ class DoubleLinkedList {
         position = 0;
       }
 
+      // Delete the first element
       if (position == 0) {
-        delete this->head;
-        return true;
+        // single element in list
+        if (this->head->next == NULL) {
+	  delete this->head;
+  	  this->head = NULL;
+          return true;
+        }
+        // multiple elements in list 
+        else {
+          Node * copy = this->head->next;
+          delete this->head;
+          this->head = copy;
+          return true;
+        }
       }
-    
+
 
       Node * before = this->head;
       // Find the previous node of the node to be removed.
@@ -98,7 +110,7 @@ class DoubleLinkedList {
       before->next = after;
     }
 
-    void print(string msg = "\n*** Printed List ***\n") {
+    void print(string msg = "\n*** List ***\n") {
       cout << msg;
       if (this->head == NULL) {
         cout << "Nothing to print. This list is empty.\n";
@@ -111,6 +123,13 @@ class DoubleLinkedList {
     }
 
   private:
+   /**
+    +---------+
+    |  data   | -----> variable stored in node
+    +---------+
+    |  next   | -----> pointer to the next node
+    +---------+
+    */
     struct Node {
       int data;
       Node *next;
@@ -124,7 +143,7 @@ class DoubleLinkedList {
  * Example of using a double (bidirectional) linked list.
  */
 int main() {
-  DoubleLinkedList list;
+  LinkedList list;
   cout << "Push on some numbers.\n";
   list.push(5);
   list.push(10);
@@ -143,7 +162,8 @@ int main() {
   }
   list.print();
 
-  list.remove(1); // remove the second element
+  cout << "Remove first element:\n";
+  list.remove(0);
   list.print("Modified list:\n");
   return 0;
 }
