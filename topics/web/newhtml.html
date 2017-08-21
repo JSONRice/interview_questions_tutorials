@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+<script>
+function wrapper(){
+  alert(checkColorPickerSupported());
+}  
+  
+function checkColorPickerSupported() {
+var picker = document.createElement("input");
+picker.setType("color");
+return picker.type !== "color"; 
+}
+</script>
+<title>Style Tests</title>
+</head>
+<body>
+  <button onclick="wrapper()">click me</button>
+</body>
+</html>
