@@ -35,6 +35,16 @@
         var promiseCount = 0;
         const CAP_IN_MS = 5000; // maximum amount of time in ms for the promise to be fulfilled
 
+        function truncate(id) {
+            let el = document.getElementById(id);
+            if (el) {
+                el.innerHTML = "";
+                console.log('Cleared element with id: ' + id);
+            } else {
+                console.warn('No element found in clear(id)');
+            }
+        }
+
         // Convert milliseconds to seconds
         function getSeconds(ms) {
             return Math.round(ms / 1000);
@@ -66,7 +76,7 @@
                     window.setTimeout(
                         function() {
                             // We fulfill the promise after the amount of time is completed!
-                            resolve({promiseCount: thisPromiseCount, setTime: setTime});
+                            resolve({promiseCount: thisPromiseCount, ms: ms});
                         }, ms);
                 }
             );
@@ -78,7 +88,7 @@
                 function(data) {
                     log.insertAdjacentHTML('beforeend', data.promiseCount +
                         ') Promise fulfilled (<small>Async code terminated</small>) in <span style=\'font-weight: bold\'>'
-                        + getSeconds(data.setTime) + '</span> seconds<br/>');
+                        + getSeconds(data.ms) + '</span> seconds<br/>');
                 })
                 .catch(
                     // Log the rejection reason
@@ -99,7 +109,7 @@
     <h3>Promises Example</h3>
     <h4>Question: What will the output (result) be?</h4>
     <h4>Answer:</h4>
-    <button id="btn" onclick="testPromise()">Make a promise!</button>
+    <button id="btn" onclick="testPromise()">Make a promise!</button>&nbsp;<button id="clear" onclick="truncate('log')">Reset</button>
     <div id="log"></div>
 </body>
 </html>
