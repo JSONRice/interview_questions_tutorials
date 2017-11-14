@@ -1,0 +1,105 @@
+<!--
+/**
+ * Promises with ECMAScript 6
+ *
+ * A promise can be:
+ *
+ * fulfilled - The action relating to the promise succeeded
+ * rejected - The action relating to the promise failed
+ * pending - Hasn't fulfilled or rejected yet
+ * settled - Has fulfilled or rejected
+ *
+ * This example is an adaptation of a famous MDN Promises Tutorial.
+ *
+ * According to MDN:
+ *
+ * The Promise object represents the eventual completion
+ * (or failure) of an asynchronous operation, and its resulting value.
+ *
+ * As the Promise.prototype.then() and Promise.prototype.catch() methods
+ * return promises, they can be chained.
+ *
+ * new Promise( function(resolve, reject) { ... } );
+ *
+ * Sources: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+ *
+ */
+  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promises Example</title>
+    <script type="text/javascript">
+        'use strict';
+        var promiseCount = 0;
+        const CAP_IN_MS = 5000; // maximum amount of time in ms for the promise to be fulfilled
+
+        // Convert milliseconds to seconds
+        function getSeconds(ms) {
+            return Math.round(ms / 1000);
+        }
+
+        function testPromise() {
+            let thisPromiseCount = ++promiseCount;
+
+            let log = document.getElementById('log');
+            log.insertAdjacentHTML('beforeend', thisPromiseCount +
+                ') Started (<small>Sync code started</small>)<br/>');
+
+            let ms = 0; // milliseconds
+
+            // We make a new promise: we promise a numeric count of this promise, starting from 1 (after waiting 3s)
+            let promise = new Promise(
+                // The resolver function is called with the ability to resolve or
+                // reject the promise
+                (resolve, reject) => {
+                    log.insertAdjacentHTML('beforeend', thisPromiseCount +
+                        ') Promise started (<small>Async code started</small>)<br/>');
+                    // This is only an example to create asynchronism
+                    ms = Math.random() * 10000;
+                    // If the promise is too slow, simply reject it.
+                    if (ms > CAP_IN_MS) {
+                        reject(thisPromiseCount + ') The promise is too slow and will take <span style=\'font-weight: bold\'>'
+                            + getSeconds(ms) + '</span> seconds to complete. Try back later.<br/>');
+                    }
+                    window.setTimeout(
+                        function() {
+                            // We fulfill the promise after the amount of time is completed!
+                            resolve({promiseCount: thisPromiseCount, setTime: setTime});
+                        }, ms);
+                }
+            );
+
+            // We define what to do when the promise is resolved with the then() call,
+            // and what to do when the promise is rejected with the catch() call
+            promise.then(
+                // Log the fulfillment value
+                function(data) {
+                    log.insertAdjacentHTML('beforeend', data.promiseCount +
+                        ') Promise fulfilled (<small>Async code terminated</small>) in <span style=\'font-weight: bold\'>'
+                        + getSeconds(data.setTime) + '</span> seconds<br/>');
+                })
+                .catch(
+                    // Log the rejection reason
+                    (reason) => {
+                        if (typeof reason === 'string') {
+                            log.insertAdjacentHTML('beforeend', reason);
+                            console.error(reason);
+                        } else {
+                            console.error('Handle rejected promise: reason unknown (non-string). Please examine the code.')
+                        }
+                    });
+
+            log.insertAdjacentHTML('beforeend', thisPromiseCount + ') Promise made (<small>Sync code terminated</small>)<br/>');
+        }
+    </script>
+</head>
+<body>
+    <h3>Promises Example</h3>
+    <h4>Question: What will the output (result) be?</h4>
+    <h4>Answer:</h4>
+    <button id="btn" onclick="testPromise()">Make a promise!</button>
+    <div id="log"></div>
+</body>
+</html>
