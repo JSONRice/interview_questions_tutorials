@@ -2,9 +2,12 @@
  * Name: Jason Rice
  * Date: Sep. 14, 2015
  *
- * Description:
- *    Illustration of bonus 'arguments' parameter.
+ * Description: Illustration of bonus 'arguments' parameter.
+ * This is a JS mechanism that provides for variadic function arguments (indefinite arity arguments).
+ *
  * See: JavaScript The Good Parts Pg. 31
+ *
+ * More on variadic functions: https://en.wikipedia.org/wiki/Variadic_function
  **/
 
 
