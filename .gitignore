@@ -1,3 +1,4 @@
+.idea
 node_modules
 bower_components
 dist
@@ -9,3 +10,4 @@ coverage
 testing
 code_coverage
 .DS_Store
+*.class
