@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<script
+     src="https://code.jquery.com/jquery-3.3.1.min.js"
+     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+     crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<style>
+  .error {
+    color: red;
+    font-weight: bold;
+  }
+</style>
+<body>
+
+<h2>Validation Example</h2>
+
+<form ng-app="myApp" ng-controller="validateCtrl" name="myForm" novalidate>
+  <p>Username:<br>
+  <input type="text" name="user" ng-model="user" required>
+  <span style="color:red" ng-show="myForm.user.$dirty && myForm.user.$invalid">
+  <br>
+  <span ng-show="myForm.user.$error.required">Username is required.</span>
+  </span>
+  </p>
+
+  <p>Email:<br>
+  <input type="email" name="email" ng-model="email">
+  <span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">
+  <br>
+  <span ng-show="myForm.email.$error.required">This field is required</span>
+  <br>
+  <span ng-show="myForm.email.$error.email">Invalid email address</span>
+  </span>
+  </p>
+
+  <p>Password:<br>
+  <input type="password" name="userPassword" ng-model="userPassword" required>
+  <ul class="error-list" ng-show="myForm.userPassword.$invalid" style="">
+    <li ng-show="submitted && myForm.userPassword.$error.required" class="error">
+        <label for="userPassword" class="orderSummaryError">This field is required</label>
+    </li>
+    <li ng-show="myForm.userPassword.$touched && myForm.userPassword.$error.isInvalidPassword" class="error">
+        <label for="userPassword" class="orderSummaryError">Password must be at least 8 characters and meet three of the four requirements.</label>
+    </li>
+  </ul>
+  </p>
+
+  <p>
+  <input type="submit"
+  ng-disabled="myForm.user.$dirty && myForm.user.$invalid ||
+  myForm.email.$dirty && myForm.email.$invalid" ng-click="validateFields(myForm)">
+  </p>
+</form>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('validateCtrl', function($scope) {
+  $scope.user = 'John Doe';
+  $scope.email = 'john.doe@gmail.com';
+  $scope.userPassword = '';
+  $scope.submitted = false;
+
+  var email = angular.element("input[name=email]");
+  email.attr("required", "");
+
+  $scope.validateFields = (form) => {
+    $scope.submitted = true;
+    _checkForEmailRequired();
+    _validatePassword(form);
+  };
+
+  _checkForEmailRequired = () => {
+      if (email.attr("required") && email.val().length <= 0) {
+          email.after("<span id='error' style='font-weight:bold;color:red;'>This field is required.</span>");
+          return false;
+      } else {
+  	      email.remove("#error");
+          return true;
+      }
+  }
+
+  /**
+   * Convert boolean to either a 1 (for true) or 0 (for false). This
+   * is beneficial for adding up boolean sums (e.g. password must meet 3 out of
+   * 4 criteria). If something besides a boolean is passed in just convert that
+   * to a zero or one with the default casting ruleset (truthy or falsy).
+   */
+  function _boolToInt(bool) {
+    return bool ? 1 : 0;
+  }
+
+  /**
+   * The state of the password as pertaining it's criteria strength and if it's
+   * populated or not.
+   */
+  $scope.passwordState = {
+    isInvalidPassword: false,
+    emptyPassword: true,
+  }
+
+  /**
+   * Set the password state object.
+   */
+  function _setPasswordState(strength, password) {
+    $scope.passwordState.isInvalidPassword     = strength < 3;
+    $scope.passwordState.emptyPassword         = !password;
+  }
+
+  /**
+   * Validate passwords in this order:
+   * Ensure the length is greater than 8
+   *
+   * Three out of the four conditions must be met:
+   * A special character
+   * A lowercase character
+   * An uppercase character
+   * A number
+   */
+  _validatePassword = (form) => {
+    $scope.passwordState.strength =
+      (_boolToInt($scope.userPassword && $scope.userPassword.length >= 8)) &&
+      (_boolToInt($scope.userPassword && /[\@\#\$\%\^\&\*\(\)\_\+\!]/.test($scope.userPassword)) +
+       _boolToInt($scope.userPassword  && /[a-z]/.test($scope.userPassword)) +
+       _boolToInt($scope.userPassword  && /[A-Z]/.test($scope.userPassword)) +
+       _boolToInt($scope.userPassword  && /[0-9]/.test($scope.userPassword)));
+
+    _setPasswordState($scope.passwordState.strength, $scope.userPassword);
+    _setFormValidity(form);
+  };
+
+  function invalidate(element, key) {
+    element.$setValidity(key, false);
+  }
+
+  function validate(element, key) {
+    element.$setValidity(key, true);
+  }
+
+  function _setFormValidity(form) {
+    debugger;
+
+    if($scope.passwordState.isInvalidPassword) {
+      invalidate($scope.myForm.userPassword, "isInvalidPassword");
+    } else {
+      validate($scope.myForm.userPassword, "isInvalidPassword");
+    }
+  };
+});
+</script>
+
+</body>
+</html>

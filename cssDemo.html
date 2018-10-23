@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Specifity</title>
+    <style>
+        p {
+            color: red;
+        }
+        p:nth-child(even) {
+            color: green;
+        }
+        div p {
+            color: black;
+        }
+        .one+p {
+            color: blue;
+        }
+        .two {
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p class="one">One</p>
+        <p class="two">Two</p> <!-- Will be blue -->
+        <p class="three">Three</p>
+    </div>
+</body>
+</html>

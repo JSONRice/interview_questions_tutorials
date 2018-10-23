@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deep Product Recursion</title>
+    <script src="./deepProduct.js"></script>
+    <script>
+      var arr = [
+        "x",
+        "y",
+        2,
+        [
+          3,
+          [4],
+        ],
+        "z",
+        12,
+        [
+          "a",
+          3,
+          ["b", "c", 5]
+        ]
+      ];
+
+      // let answer = deepProduct(arr, 0, arr[0], 0);
+
+      console.log(`Given: ${JSON.stringify(arr)}`);
+      console.log(`Sum of Products: ${deepProduct(arr, 0, arr[0], 0)}`);
+    </script>
+</head>
+<body>
+    <h3>Hello Recursion</h3>
+</body>
+</html>

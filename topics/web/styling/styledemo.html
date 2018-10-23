@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 100px;
+    }
+    .me-relative {
+      position: relative;
+      top: 50px;
+      left: 100px;
+      background: pink;
+    }
+    .me-absolute {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: lightgreen;
+    }
+    .me-fixed {
+      position: fixed;
+      background: lightsalmon;
+    }
+    .grand-dad {
+      padding: 50px;
+      background: lightblue;
+      position: relative;
+    }
+    .dad {
+      position: relative;
+      background: lightskyblue;
+    }
+  </style>
+  <title>CSS Positioning</title>
+</head>
+<body>
+  <div class="grand-dad">
+    <div class="dad">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+      eiusmod tempor <span class="me-relative">relative</span> ut labore et dolore magna aliqua. Ut
+      enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+      in reprehenderit in <span class="me-absolute">absolute</span> velit esse cillum dolore eu fugiat
+      nulla pariatur. <span class="me-fixed">fixed</span> sint occaecat cupidatat non proident,
+      sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+  </div>
+  <div class="grand-mother"
+       style="height: 2000px;background: lime; width: 5px;"></div>
+</body>
+</html>

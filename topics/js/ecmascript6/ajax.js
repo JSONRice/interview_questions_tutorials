@@ -40,7 +40,7 @@ class AjaxService {
     }) {
         if (this._timeout.active && this._timeout.ms > 0) {
             options.timeout = this._timeout.ms;
-            let msg = (options.timeout >= 1000) ? `${options.timeout/1000} second(s)` : `${options.timeout} millisecond(s)`
+            let msg = (options.timeout >= 1000) ? `${options.timeout/1000} second(s)` : `${options.timeout} millisecond(s)`;
             console.log(`timeout set to ${msg}`);
         }
 
