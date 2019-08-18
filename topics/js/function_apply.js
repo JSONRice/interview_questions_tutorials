@@ -10,12 +10,12 @@
  **/
 
 
-var sum = function() {
-    var i, sum = 0;
-    for (i = 0; i < arguments.length; ++i) {
-	sum += arguments[i];
-    }
-    return sum;
+let sum = function () {
+  let i, sum = 0;
+  for (i = 0; i < arguments.length; ++i) {
+    sum += arguments[i];
+  }
+  return sum;
 };
 
 console.log(sum(4, 8, 15, 16, 23, 42)); // 108
