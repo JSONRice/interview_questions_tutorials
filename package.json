@@ -13,6 +13,8 @@
     "del": "^2.2.0",
     "kerberos": "0.0.19",
     "prettify": "^0.1.7",
+    "react": "^16.9.0",
+    "storybook": "^1.0.0",
     "tidy-html5": "^0.1.1"
   },
   "scripts": {
