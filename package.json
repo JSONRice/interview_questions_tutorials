@@ -10,6 +10,7 @@
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.7.9",
+    "create-react-app": "^3.3.1",
     "del": "^2.2.0",
     "kerberos": "0.0.19",
     "prettify": "^0.1.7",
