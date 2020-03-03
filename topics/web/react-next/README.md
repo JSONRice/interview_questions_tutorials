@@ -31,7 +31,7 @@ After creating an app, it should look something like:
 .
 ├── README.md
 ├── components
-│   ├── head.js
+│   ├── Head.js
 │   └── nav.js
 ├── next.config.js
 ├── node_modules
@@ -232,3 +232,10 @@ You can find more details about [`now` here](https://zeit.co/now).
 ## Something Missing?
 
 If you have ideas for how we could improve this readme or the project in general, [let us know](https://github.com/segmentio/create-next-app/issues) or [contribute some!](https://github.com/segmentio/create-next-app/edit/master/lib/templates/default/README.md)
+
+
+
+## This project contains a demonstration of Redux vs Context state management in a global space.
+
+See: [https://github.com/academind/react-redux-vs-context]
+Also see: [https://academind.com/learn/react/redux-vs-context-api/]

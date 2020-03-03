@@ -6,10 +6,16 @@
     "start": "next start"
   },
   "dependencies": {
+    "@zeit/next-source-maps": "0.0.4-canary.1",
     "next": "^9.2.2",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "source-map": "^0.7.3",
+    "source-map-support": "^0.4.18",
     "styled-components": "^5.0.1"
   }
 }
