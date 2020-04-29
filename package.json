@@ -84,7 +84,7 @@
     "http-server": "^0.8.5",
     "istanbul": "^0.4.2",
     "jasmine-core": "~2.4.1",
-    "jquery": "~2.1.4",
+    "jquery": "~3.5.0",
     "karma": "^0.13.22",
     "karma-browserify": "^5.0.1",
     "karma-chrome-launcher": "~0.2.2",
