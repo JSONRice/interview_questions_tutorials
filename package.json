@@ -110,7 +110,7 @@
     "protractor": "^2.1.0",
     "reload": "~0.7.0",
     "serve-favicon": "~2.3.0",
-    "shelljs": "~0.2.6",
+    "shelljs": "~0.8.5",
     "uglify-js": "~2.6.1",
     "ui-select": "~0.11.2",
     "watchify": "^3.7.0"
